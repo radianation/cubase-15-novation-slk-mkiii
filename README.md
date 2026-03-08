@@ -23,3 +23,16 @@ To Test
 4. Press the InControl button on your SL MkIII
 5. You should see the LCD screens initialize with "SL MkIII / Cubase 15"
 6. Use Screen Up/Down buttons to cycle between the 4 pages
+
+
+ Installation:
+
+  Copy the entire Novation/SL_MkIII_Custom/ folder to:
+
+  - Windows: %USERPROFILE%\Documents\Steinberg\Cubase\MIDI Remote\Driver Scripts\Local\
+  - macOS: ~/Documents/Steinberg/Cubase/MIDI Remote/Driver Scripts/Local/
+
+  Final path should look like:
+  .../Driver Scripts/Local/Novation/SL_MkIII_Custom/SL_MkIII_Custom.js
+
+  Then restart Cubase (or go to MIDI Remote Manager and refresh). The script should auto-detect the controller.
