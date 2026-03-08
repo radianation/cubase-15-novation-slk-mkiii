@@ -1,16 +1,10 @@
 4 Mapping Pages
-
-┌────────────────┬────────────────────────┬─────────────────┬─────────────┬───────────────────┬────────────┐
-│      Page      │         Knobs          │     Faders      │ Soft Row 1  │    Soft Row 2     │ Soft Row 3 │
-├────────────────┼────────────────────────┼─────────────────┼─────────────┼───────────────────┼────────────┤
-│ Mixer          │ Pan (8ch)              │ Volume (8ch)    │ Mute        │ Solo              │ Rec Arm    │
-├────────────────┼────────────────────────┼─────────────────┼─────────────┼───────────────────┼────────────┤
-│ Selected Track │ Quick Controls         │ Send Levels 1-8 │ Send On/Off │ Mute/Solo/Mon/Rec │ —          │
-├────────────────┼────────────────────────┼─────────────────┼─────────────┼───────────────────┼────────────┤
-│ Plugin         │ Focused QC             │ Volume (8ch)    │ —           │ —                 │ —          │
-├────────────────┼────────────────────────┼─────────────────┼─────────────┼───────────────────┼────────────┤
-│ EQ             │ EQ Bands (gain/freq/Q) │ Volume (8ch)    │ Band On/Off │ —                 │ —          │
-└────────────────┴────────────────────────┴─────────────────┴─────────────┴───────────────────┴────────────┘
+| Page / Mode | Knobs | Faders | Soft Row 1 | Soft Row 2 | Soft Row 3 |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Mixer** | Pan (8 channels) | Volume (8 channels) | Mute | Solo | Record Arm |
+| **Selected Track** | Quick Controls | Send Levels (1–8) | Send On/Off | Mute / Solo / Mon / Rec | *(Unassigned)* |
+| **Plugin** | Focused QC | Volume (8 channels) | *(Unassigned)* | *(Unassigned)* | *(Unassigned)* |
+| **EQ** | EQ Bands (Gain/Freq/Q) | Volume (8 channels) | Band On/Off | *(Unassigned)* | *(Unassigned)* |
 
 Controls Mapped
 
