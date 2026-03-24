@@ -273,8 +273,8 @@ var surface = deviceDriver.mSurface;
 // --- 8 Rotary Encoders ---
 var knobs = [];
 for (var k = 0; k < 8; k++) {
-    var knob = surface.makePushEncoder(k, 0, 1, 1);
-    knob.mEncoderValue.mMidiBinding
+    var knob = surface.makeKnob(k, 0, 1, 1);
+    knob.mSurfaceValue.mMidiBinding
         .setInputPort(midiInput)
         .setOutputPort(midiOutput)
         .bindToControlChange(CH, KNOB_CC[k])
@@ -395,7 +395,7 @@ for (var ch = 0; ch < 8; ch++) {
 
 // Knobs -> Pan
 for (var kp = 0; kp < 8; kp++) {
-    pageMixer.makeValueBinding(knobs[kp].mEncoderValue, mixerChannels[kp].mValue.mPan);
+    pageMixer.makeValueBinding(knobs[kp].mSurfaceValue, mixerChannels[kp].mValue.mPan);
 }
 
 // Faders -> Volume (with pickup to prevent jumps)
@@ -487,22 +487,22 @@ pageMixer.mOnActivate = function (context) {
 // Knob display callbacks (Pan values per channel)
 for (var kd = 0; kd < 8; kd++) {
     (function (idx) {
-        knobs[idx].mEncoderValue.mOnTitleChange = function (context, objectTitle, valueTitle) {
+        knobs[idx].mSurfaceValue.mOnTitleChange = function (context, objectTitle, valueTitle) {
             mixerTrackNames[idx] = truncate(objectTitle, 9);
             setScreenText(context, midiOutput, idx, 0, truncate(objectTitle, 9));
             setScreenText(context, midiOutput, idx, 1, truncate(valueTitle, 9));
         };
 
-        knobs[idx].mEncoderValue.mOnDisplayValueChange = function (context, value, units) {
+        knobs[idx].mSurfaceValue.mOnDisplayValueChange = function (context, value, units) {
             setScreenText(context, midiOutput, idx, 2, truncate(value, 9));
             setScreenText(context, midiOutput, idx, 3, truncate(units, 9));
         };
 
-        knobs[idx].mEncoderValue.mOnProcessValueChange = function (context, newValue) {
+        knobs[idx].mSurfaceValue.mOnProcessValueChange = function (context, newValue) {
             setScreenValue(context, midiOutput, idx, floatTo127(newValue));
         };
 
-        knobs[idx].mEncoderValue.mOnColorChange = function (context, r, g, b, a, isActive) {
+        knobs[idx].mSurfaceValue.mOnColorChange = function (context, r, g, b, a, isActive) {
             if (isActive) {
                 var rgb = colorToRGB(r, g, b);
                 mixerTrackColors[idx] = rgb;
@@ -583,7 +583,7 @@ var selectedTrack = pageTrack.mHostAccess.mTrackSelection.mMixerChannel;
 
 // Knobs -> Quick Controls (focused plugin or track QC)
 for (var qc = 0; qc < 8; qc++) {
-    pageTrack.makeValueBinding(knobs[qc].mEncoderValue,
+    pageTrack.makeValueBinding(knobs[qc].mSurfaceValue,
         pageTrack.mHostAccess.mFocusedQuickControls.getByIndex(qc));
 }
 
@@ -639,16 +639,16 @@ pageTrack.mOnActivate = function (context) {
 // QC knob display callbacks
 for (var qd = 0; qd < 8; qd++) {
     (function (idx) {
-        knobs[idx].mEncoderValue.mOnTitleChange = function (context, objectTitle, valueTitle) {
+        knobs[idx].mSurfaceValue.mOnTitleChange = function (context, objectTitle, valueTitle) {
             setScreenText(context, midiOutput, idx, 0, truncate(objectTitle, 9));
             setScreenText(context, midiOutput, idx, 1, truncate(valueTitle, 9));
         };
 
-        knobs[idx].mEncoderValue.mOnDisplayValueChange = function (context, value, units) {
+        knobs[idx].mSurfaceValue.mOnDisplayValueChange = function (context, value, units) {
             setScreenText(context, midiOutput, idx, 2, truncate(value, 9));
         };
 
-        knobs[idx].mEncoderValue.mOnProcessValueChange = function (context, newValue) {
+        knobs[idx].mSurfaceValue.mOnProcessValueChange = function (context, newValue) {
             setScreenValue(context, midiOutput, idx, floatTo127(newValue));
         };
     })(qd);
@@ -663,7 +663,7 @@ var pagePlugin = deviceDriver.mMapping.makePage('Plugin');
 
 // Knobs -> Focused Quick Controls (same as Selected Track but semantically different page)
 for (var pc = 0; pc < 8; pc++) {
-    pagePlugin.makeValueBinding(knobs[pc].mEncoderValue,
+    pagePlugin.makeValueBinding(knobs[pc].mSurfaceValue,
         pagePlugin.mHostAccess.mFocusedQuickControls.getByIndex(pc));
 }
 
@@ -749,20 +749,20 @@ pagePlugin.mOnActivate = function (context) {
 // Plugin knob display callbacks
 for (var pd = 0; pd < 8; pd++) {
     (function (idx) {
-        knobs[idx].mEncoderValue.mOnTitleChange = function (context, objectTitle, valueTitle) {
+        knobs[idx].mSurfaceValue.mOnTitleChange = function (context, objectTitle, valueTitle) {
             setScreenText(context, midiOutput, idx, 0, truncate(objectTitle, 9));
             setScreenText(context, midiOutput, idx, 1, truncate(valueTitle, 9));
         };
 
-        knobs[idx].mEncoderValue.mOnDisplayValueChange = function (context, value, units) {
+        knobs[idx].mSurfaceValue.mOnDisplayValueChange = function (context, value, units) {
             setScreenText(context, midiOutput, idx, 2, truncate(value, 9));
         };
 
-        knobs[idx].mEncoderValue.mOnProcessValueChange = function (context, newValue) {
+        knobs[idx].mSurfaceValue.mOnProcessValueChange = function (context, newValue) {
             setScreenValue(context, midiOutput, idx, floatTo127(newValue));
         };
 
-        knobs[idx].mEncoderValue.mOnColorChange = function (context, r, g, b, a, isActive) {
+        knobs[idx].mSurfaceValue.mOnColorChange = function (context, r, g, b, a, isActive) {
             if (isActive) {
                 var rgb = colorToRGB(r, g, b);
                 setScreenColorRGB(context, midiOutput, idx, 0, rgb[0], rgb[1], rgb[2]);
@@ -795,19 +795,19 @@ var eqBands = [
 ];
 
 for (var eb = 0; eb < 4; eb++) {
-    pageEQ.makeValueBinding(knobs[eb].mEncoderValue, eqBands[eb].mGain)
+    pageEQ.makeValueBinding(knobs[eb].mSurfaceValue, eqBands[eb].mGain)
         .setSubPage(eqSubGain);
-    pageEQ.makeValueBinding(knobs[eb + 4].mEncoderValue, eqBands[eb].mFreq)
+    pageEQ.makeValueBinding(knobs[eb + 4].mSurfaceValue, eqBands[eb].mFreq)
         .setSubPage(eqSubGain);
 
-    pageEQ.makeValueBinding(knobs[eb].mEncoderValue, eqBands[eb].mFreq)
+    pageEQ.makeValueBinding(knobs[eb].mSurfaceValue, eqBands[eb].mFreq)
         .setSubPage(eqSubFreq);
-    pageEQ.makeValueBinding(knobs[eb + 4].mEncoderValue, eqBands[eb].mQ)
+    pageEQ.makeValueBinding(knobs[eb + 4].mSurfaceValue, eqBands[eb].mQ)
         .setSubPage(eqSubFreq);
 
-    pageEQ.makeValueBinding(knobs[eb].mEncoderValue, eqBands[eb].mQ)
+    pageEQ.makeValueBinding(knobs[eb].mSurfaceValue, eqBands[eb].mQ)
         .setSubPage(eqSubQ);
-    pageEQ.makeValueBinding(knobs[eb + 4].mEncoderValue, eqBands[eb].mGain)
+    pageEQ.makeValueBinding(knobs[eb + 4].mSurfaceValue, eqBands[eb].mGain)
         .setSubPage(eqSubQ);
 }
 
@@ -875,16 +875,16 @@ eqSubQ.mOnActivate = function (context) {
 // EQ knob display callbacks
 for (var ed = 0; ed < 8; ed++) {
     (function (idx) {
-        knobs[idx].mEncoderValue.mOnTitleChange = function (context, objectTitle, valueTitle) {
+        knobs[idx].mSurfaceValue.mOnTitleChange = function (context, objectTitle, valueTitle) {
             setScreenText(context, midiOutput, idx, 0, truncate(objectTitle, 9));
             setScreenText(context, midiOutput, idx, 1, truncate(valueTitle, 9));
         };
 
-        knobs[idx].mEncoderValue.mOnDisplayValueChange = function (context, value, units) {
+        knobs[idx].mSurfaceValue.mOnDisplayValueChange = function (context, value, units) {
             setScreenText(context, midiOutput, idx, 2, truncate(value, 9));
         };
 
-        knobs[idx].mEncoderValue.mOnProcessValueChange = function (context, newValue) {
+        knobs[idx].mSurfaceValue.mOnProcessValueChange = function (context, newValue) {
             setScreenValue(context, midiOutput, idx, floatTo127(newValue));
         };
     })(ed);
